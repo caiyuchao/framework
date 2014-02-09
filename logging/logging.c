@@ -39,11 +39,7 @@ void __log(const char *file, const char *fn, int line, int level, const char *fm
     assert (ret > 0 &&  ret < 512);
 
     pthread_mutex_lock(&lock);
-    if (log) {
-        fprintf(log, "[%s] %s [%s:%s:%d] %s", timestr, log_level[level], file, fn, line, str);
-    } else {
-        fprintf(stderr, "[%s] %s [%s:%s:%d] %s", timestr, log_level[level], file, fn, line, str);
-    }
+    fprintf(log, "[%s] %s [%s:%s:%d] %s", timestr, log_level[level], file, fn, line, str);
     fflush(log);
     pthread_mutex_unlock(&lock);
 }
@@ -51,8 +47,8 @@ void __log(const char *file, const char *fn, int line, int level, const char *fm
 int log_init(const char *logfile)
 {
     int fd;
-    /* Using STDOUT as logfile. */
     if (logfile == NULL) {
+        log = stderr;
         return 0;
     }
     if (access(logfile, F_OK) == -1) {

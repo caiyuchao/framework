@@ -9,6 +9,5 @@
 #define spin_unlock(l) pthread_spin_unlock(l)
 #define mutex_lock(l) pthread_mutex_lock(l)
 #define mutex_unlock(l) pthread_mutex_unlock(l)
-
 #endif
 

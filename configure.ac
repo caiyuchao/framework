@@ -2,16 +2,21 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_INIT([fm], [1.0])
-AM_INIT_AUTOMAKE([-Wall foreign])
+LT_INIT
+AM_INIT_AUTOMAKE([-Wall foreign -Wno-extra-portability])
 #AC_CONFIG_SRCDIR([main.c])
 AC_CONFIG_HEADERS([config.h])
-
+AC_CONFIG_MACRO_DIR([m4])
 
 # Checks for programs.
 AC_PROG_CC
 
-# Checks for libraries.
-# FIXME: Replace `main' with a function in `-lpthread':
+AC_CHECK_LIB(pthread, pthread_create, ,
+        [
+        echo "Error, no pthread libary found." 
+        exit 1
+        ])
+
 
 # Checks for header files.
 
@@ -19,11 +24,9 @@ AC_PROG_CC
 
 # Checks for library functions.
 
-AC_PROG_RANLIB([pthread])
 
 AC_CONFIG_FILES([
                 Makefile
-                 mm/Makefile
-                 lib/Makefile
+                logging/Makefile
                  ])
 AC_OUTPUT
