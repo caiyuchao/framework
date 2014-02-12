@@ -1,8 +1,11 @@
 INCLUDE = ./include
-AM_CPPFLAGS = -lpthread -g -O0 -I$(INCLUDE)
+AM_CPPFLAGS = -I$(INCLUDE)
 ACLOCAL_AMFLAGS = -I m4
-bin_PROGRAMS = test
-test_SOURCES = main.c
-test_LDADD = $(LIBOBJS)
-SUBDIRS = logging
-LIBOBJS = logging/liblogging.a
+bin_PROGRAMS = server client 
+server_SOURCES = server.c
+server_LDADD = $(SERVEROBJS)
+client_SOURCES = client.c
+client_LDADD = $(CLIENTOBJS)
+SUBDIRS = logging net cmagent
+SERVEROBJS = logging/liblogging.a net/libnet.a
+CLIENTOBJS = logging/liblogging.a net/libnet.a cmagent/libcmagent.a

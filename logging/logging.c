@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <fcntl.h>
+#include <errno.h>
 #include <string.h>
 #include <assert.h>
 #include <pthread.h>
@@ -39,7 +40,7 @@ void __log(const char *file, const char *fn, int line, int level, const char *fm
     assert (ret > 0 &&  ret < 512);
 
     pthread_mutex_lock(&lock);
-    fprintf(log, "[%s] %s [%s:%s:%d] %s", timestr, log_level[level], file, fn, line, str);
+    fprintf(log, "[%s] %s [%s:%s:%d] %s\n", timestr, log_level[level], file, fn, line, str);
     fflush(log);
     pthread_mutex_unlock(&lock);
 }
@@ -67,4 +68,17 @@ int log_init(const char *logfile)
     pthread_mutex_init(&lock, NULL);
     return 0;
 }
+
+void __log_errno(int err, const char *file, const char *fn, int line, int level)
+{
+    char buf[128];
+    int n;
+    strerror_r(err, buf, sizeof buf);
+    n = strlen(buf);
+    buf[n] = '\n';
+    buf[n+1] = 0;
+    __log(file, fn, line, level, buf);
+
+}
+
 

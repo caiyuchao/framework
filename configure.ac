@@ -17,6 +17,18 @@ AC_CHECK_LIB(pthread, pthread_create, ,
         exit 1
         ])
 
+AC_CHECK_LIB(event, event_base_new, ,
+        [
+        echo "Error, no event libary found." 
+        exit 1
+        ])
+
+AC_CHECK_LIB(jansson, json_pack, ,
+        [
+        echo "Error, no jansson libary found." 
+        exit 1
+        ])
+
 
 # Checks for header files.
 
@@ -28,5 +40,7 @@ AC_CHECK_LIB(pthread, pthread_create, ,
 AC_CONFIG_FILES([
                 Makefile
                 logging/Makefile
+                net/Makefile
+                cmagent/Makefile
                  ])
 AC_OUTPUT

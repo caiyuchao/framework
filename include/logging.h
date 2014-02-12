@@ -11,9 +11,11 @@ enum loglevel {
 
 extern void __log(const char *file, const char *fn, int line, int level, const char *fmt, ...);
 extern int init_log(const char *);
+extern void __log_errno(int , const char *file, const char *fn, int line, int level);
 #define LOG_WARN(fmt...) do { __log(__FILE__, __FUNCTION__, __LINE__, WARN, ##fmt); } while(0)
 #define LOG_ERROR(fmt...) do { __log(__FILE__, __FUNCTION__, __LINE__, ERROR, ##fmt); } while(0)
 #define LOG_DEBUG(fmt...) do { __log(__FILE__, __FUNCTION__, __LINE__, DEBUG, ##fmt); } while(0)
 #define LOG_INFO(fmt...) do { __log(__FILE__, __FUNCTION__, __LINE__, INFO, ##fmt); } while(0)
+#define LOG_ERRNO(err) do { __log_errno(err, __FILE__, __FUNCTION__, __LINE__, ERROR); } while(0)
 
 #endif
